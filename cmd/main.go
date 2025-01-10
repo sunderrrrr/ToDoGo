@@ -41,7 +41,7 @@ func main() {
 	handlers := handler.NewHandler(services)
 	log.Default().Println("Handler init done")
 	srv := new(ToDoGo.Server)
-	err = srv.Run(viper.GetString("port"), handlers.InitRoutes())
+	err = srv.Run(viper.GetString("srvport"), handlers.InitRoutes())
 	if err != nil {
 		log.Fatalf("error while starting server: %e", err.Error())
 	} else {

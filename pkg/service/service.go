@@ -5,8 +5,9 @@ import (
 	"ToDoGo/pkg/repository"
 )
 
-type Authorization interface {
+type Authorization interface { //Методы авторизации
 	CreateUser(user models.User) (int, error)
+	GenerateToken(username, password string) (string, error)
 }
 
 type TodoList interface {
