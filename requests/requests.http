@@ -3,6 +3,20 @@ Content-Type: application/json
 
 {
   "name": "iliya",
-  "username": "bkmz7692",
+  "username": "bkmz7695435345342",
   "password": "qwerty"
 }
+
+### Sign-In
+POST http://localhost:8090/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "bkmz7695435345342",
+  "password": "qwerty"
+}
+
+### Gett
+GET http://localhost:8090/api/lists
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY4Mzc3OTYsImlhdCI6MTczNjc5NDU5NiwidXNlcl9pZCI6MH0.kdykE0jW2PpFkCZH03AQB0kO6cs0RlhLavHC_fyfXl8

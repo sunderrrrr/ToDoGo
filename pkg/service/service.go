@@ -8,6 +8,7 @@ import (
 type Authorization interface { //Методы авторизации
 	CreateUser(user models.User) (int, error)
 	GenerateToken(username, password string) (string, error)
+	ParseToken(token string) (int, error)
 }
 
 type TodoList interface {

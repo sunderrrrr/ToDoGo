@@ -18,6 +18,4 @@ func (h *Handler) updateList(c *gin.Context) {
 
 }
 
-func (h *Handler) deleteList(c *gin.Context) {
-
-}
+func (h *Handler) deleteList(c *gin.Context) {}
