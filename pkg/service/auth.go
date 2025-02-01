@@ -34,9 +34,13 @@ func (s *AuthService) CreateUser(user models.User) (int, error) { //Сначал
 }
 func (s *AuthService) GenerateToken(username, password string) (string, error) {
 	//get user from db
+	fmt.Println("StartGenToken")
 	user, err := s.repo.GetUser(username, generatePasswordHash(password))
+	fmt.Println("EndGenToken")
 	if err != nil {
-		return "", err
+
+		fmt.Println("Failed Get User")
+		return "fail", err
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{

@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "name": "iliya",
-  "username": "bkmz7695435345342",
+  "username": "bkmz1111",
   "password": "qwerty"
 }
 
@@ -12,11 +12,11 @@ POST http://localhost:8090/auth/sign-in
 Content-Type: application/json
 
 {
-  "username": "bkmz7695435345342",
+  "username": "bkmz1111",
   "password": "qwerty"
 }
 
 ### Gett
 GET http://localhost:8090/api/lists
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY4Mzc3OTYsImlhdCI6MTczNjc5NDU5NiwidXNlcl9pZCI6MH0.kdykE0jW2PpFkCZH03AQB0kO6cs0RlhLavHC_fyfXl8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzg0Nzk3NjcsImlhdCI6MTczODQzNjU2NywidXNlcl9pZCI6Nn0.5vmL8eOjQqmwDHwO7hEhgyfB1wN0NMoURQ1qodSLuWo
