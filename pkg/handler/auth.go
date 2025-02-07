@@ -2,7 +2,6 @@ package handler
 
 import (
 	"ToDoGo/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -36,7 +35,7 @@ func (h *Handler) signIn(c *gin.Context) {
 	token, err := h.services.Authorization.GenerateToken(input.Username, input.Password) // если все на кондициях то отправляем логи на уровень сервиса
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error()) // обрабатываем ошибку ответа
-		fmt.Println("213423423423")
+		//fmt.Println("213423423423")
 		return
 	}
 

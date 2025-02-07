@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -34,4 +35,18 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	}
 	c.Set(userCtx, userId)
 	fmt.Println("midlleware: userId:", userId)
+}
+
+func getUserId(c *gin.Context) (int, error) {
+	id, ok := c.Get(userCtx)
+	if !ok {
+		newErrorResponse(c, http.StatusUnauthorized, "No user id")
+		return 0, errors.New("middleware.go: No user id")
+	}
+	idInt, ok := id.(int)
+	if !ok {
+		newErrorResponse(c, http.StatusUnauthorized, "Invalid user id")
+		return 0, errors.New("middleware.go: Invalid user id")
+	}
+	return idInt, nil
 }
