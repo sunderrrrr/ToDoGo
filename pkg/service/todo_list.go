@@ -20,6 +20,10 @@ func (s *TodoListService) GetAllLists(UserId int) ([]models.ToDo, error) {
 	return s.repo.GetAllLists(UserId)
 }
 
-func (s *TodoListService) GetListById(UserId int, ListId int) ([]models.ToDo, error) {
+func (s *TodoListService) GetListById(UserId int, ListId int) (models.ToDo, error) {
 	return s.repo.GetListById(UserId, ListId)
+}
+
+func (s *TodoListService) DeleteList(UserId int, ListId int) error {
+	return s.repo.DeleteList(UserId, ListId)
 }

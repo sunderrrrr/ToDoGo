@@ -1,0 +1,8 @@
+### Sign-In
+POST http://localhost:8090/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "bkmz1153434311",
+  "password": "qwerty"
+}

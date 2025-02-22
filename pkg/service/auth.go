@@ -36,12 +36,13 @@ func (s *AuthService) GenerateToken(username, password string) (string, error) {
 	//get user from db
 	fmt.Println("StartGenToken")
 	user, err := s.repo.GetUser(username, generatePasswordHash(password))
-	fmt.Println("EndGenToken")
+
 	if err != nil {
 
 		fmt.Println("Failed Get User")
 		return "fail", err
 	}
+	fmt.Println("auth.go: ", user)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
@@ -49,6 +50,7 @@ func (s *AuthService) GenerateToken(username, password string) (string, error) {
 		},
 		user.Id,
 	})
+	fmt.Println("EndGenToken")
 	return token.SignedString([]byte(signingKey))
 }
 
@@ -76,5 +78,5 @@ func generatePasswordHash(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
 
-	return fmt.Sprintf("service/auth.go: userId: %x\n", hash.Sum([]byte(salt)))
+	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }

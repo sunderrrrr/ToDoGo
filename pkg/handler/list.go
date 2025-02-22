@@ -41,6 +41,7 @@ func (h *Handler) getAllLists(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+	fmt.Println(lists)
 	c.JSON(http.StatusOK, getListResponse{Data: lists})
 }
 
@@ -67,4 +68,17 @@ func (h *Handler) updateList(c *gin.Context) {
 
 }
 
-func (h *Handler) deleteList(c *gin.Context) {}
+func (h *Handler) deleteList(c *gin.Context) {
+	Userid, err := getUserId(c)
+	if err != nil {
+		return
+	}
+	id := c.Param("id")
+	i, err := strconv.Atoi(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("invalid id: %s", err.Error()))
+		return
+	}
+	dltList := h.services.TodoList.DeleteList(Userid, i)
+	c.JSON(http.StatusOK, gin.H{"result": dltList})
+}

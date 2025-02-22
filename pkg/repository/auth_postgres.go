@@ -27,8 +27,9 @@ func (ap *AuthPostgres) CreateUser(user models.User) (int, error) {
 
 func (ap *AuthPostgres) GetUser(username string, password string) (models.User, error) {
 	var user models.User // то, что вернет функция
-	query := fmt.Sprintf("SELECT FROM %s WHERE username=$1 AND password_hash=$2", userTable)
+	fmt.Println("username:", username, ", password:", password)
+	query := fmt.Sprintf("SELECT * FROM %s WHERE username=$1 AND password_hash=$2", userTable)
 	err := ap.db.Get(&user, query, username, password) // Записываем значение используя указатель на структуру user
-	fmt.Printf("user: %+v\n", user)
+	fmt.Printf("user: %+v\n err: %s", user, err)
 	return user, err
 }

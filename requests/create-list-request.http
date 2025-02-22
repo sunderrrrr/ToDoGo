@@ -1,4 +1,9 @@
-### Gett
-GET http://localhost:8090/api/lists/
+###CREATE LIST
+POST http://localhost:8090/api/lists/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDAyOTMwMTksImlhdCI6MTc0MDI0OTgxOSwidXNlcl9pZCI6MTB9.sA68uWBPmARWQnEXlxkXyBVeuMvxR13F4atgmF3jPUw
+
+{
+  "title": "list",
+  "description": "descr"
+}
