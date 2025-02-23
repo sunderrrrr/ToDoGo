@@ -27,3 +27,6 @@ func (s *TodoListService) GetListById(UserId int, ListId int) (models.ToDo, erro
 func (s *TodoListService) DeleteList(UserId int, ListId int) error {
 	return s.repo.DeleteList(UserId, ListId)
 }
+func (s *TodoListService) UpdateList(UserId int, ListId int, NewList models.ToDo) error {
+	return s.repo.UpdateList(UserId, ListId, NewList)
+}

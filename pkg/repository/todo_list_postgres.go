@@ -67,3 +67,23 @@ func (r *ToDoListPostgres) DeleteList(UserId int, ListId int) error {
 	}
 	return tx.Commit()
 }
+
+func (r *ToDoListPostgres) UpdateList(UserId int, ListId int, NewList models.ToDo) error {
+	var OldList models.ToDo
+	var ResList models.ToDo
+	query := fmt.Sprintf(`SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1 AND ul.list_id = $2`, todoListsTable, userListsTable)
+
+	err := r.db.Get(&OldList, query, UserId, ListId)
+	if err != nil {
+		return err
+	}
+
+	if OldList.Title != NewList.Title {
+		ResList.Title = NewList.Title
+	}
+	if OldList.Description != NewList.Description {
+		ResList.Description = NewList.Description
+	}
+	query := fmt.Sprintf("UPDATE %stodo_items SET title = $1, description = $2 WHERE id = $3 AND EXISTS (SELECT 1 FROM lists_items li JOIN users_lists ul ON li.list_id = ul.list_id  WHERE ul.user_id = $4)")
+	return err
+}
