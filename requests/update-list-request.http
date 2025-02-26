@@ -1,4 +1,9 @@
-### Gett
-GET http://localhost:8090/api/lists/
+###CREATE LIST
+PUT http://localhost:8090/api/lists/4
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA2Mzc3MTcsImlhdCI6MTc0MDU5NDUxNywidXNlcl9pZCI6MTB9.d4NgeHXl9zT_bXG9Ad-NvvC49MI892SiMdbF5lw4G4I
+
+{
+  "title": "затащит физтех",
+  "description": ""
+}

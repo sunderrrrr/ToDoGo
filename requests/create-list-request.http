@@ -1,9 +1,9 @@
 ###CREATE LIST
 POST http://localhost:8090/api/lists/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDAyOTMwMTksImlhdCI6MTc0MDI0OTgxOSwidXNlcl9pZCI6MTB9.sA68uWBPmARWQnEXlxkXyBVeuMvxR13F4atgmF3jPUw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA2Mzc3MTcsImlhdCI6MTc0MDU5NDUxNywidXNlcl9pZCI6MTB9.d4NgeHXl9zT_bXG9Ad-NvvC49MI892SiMdbF5lw4G4I
 
 {
-  "title": "list",
-  "description": "descr"
+  "title": "затащит физтех",
+  "description": "1 марта"
 }

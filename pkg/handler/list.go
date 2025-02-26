@@ -67,6 +67,29 @@ func (h *Handler) getListById(c *gin.Context) {
 }
 
 func (h *Handler) updateList(c *gin.Context) {
+	Userid, err := getUserId(c)
+	if err != nil {
+		return
+	}
+	listId := c.Param("id")
+	listIdInt, err := strconv.Atoi(listId)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("invalid id: %s", err.Error()))
+		return
+	}
+	var input models.ToDo
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("list.go: invalid input body: %s", err.Error()))
+		return
+	}
+
+	updateList := h.services.TodoList.UpdateList(Userid, listIdInt, input)
+	if updateList != nil {
+		newErrorResponse(c, http.StatusInternalServerError, updateList.Error())
+		c.JSON(http.StatusBadRequest, updateList.Error())
+	} else {
+		c.JSON(http.StatusOK, "success list update")
+	}
 
 }
 
@@ -82,5 +105,11 @@ func (h *Handler) deleteList(c *gin.Context) {
 		return
 	}
 	dltList := h.services.TodoList.DeleteList(Userid, i)
-	c.JSON(http.StatusOK, gin.H{"result": dltList})
+	if dltList != nil {
+		c.JSON(http.StatusBadRequest, dltList)
+		newErrorResponse(c, http.StatusInternalServerError, dltList.Error())
+
+	} else {
+		c.JSON(http.StatusOK, "success list delete")
+	}
 }

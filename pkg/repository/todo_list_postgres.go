@@ -81,29 +81,36 @@ func (r *ToDoListPostgres) UpdateList(UserId int, ListId int, NewList models.ToD
 	var OldList models.ToDo
 	var ResList models.ToDo
 	query := fmt.Sprintf(`SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1 AND ul.list_id = $2`, todoListsTable, userListsTable)
-
 	err := r.db.Get(&OldList, query, UserId, ListId)
 	if err != nil {
 		return err
 	}
 
-	if OldList.Title != NewList.Title {
+	if OldList.Title != NewList.Title && NewList.Title != "" {
 		ResList.Title = NewList.Title
 	} else {
 		ResList.Title = OldList.Title
 	}
-	if OldList.Description != NewList.Description {
+
+	if OldList.Description != NewList.Description && NewList.Description != "" {
 		ResList.Description = NewList.Description
 	} else {
 		ResList.Description = OldList.Description
 	}
 	ResList.Id = OldList.Id
-	fmt.Printf("todo_list_postgres.go: Old list: %v\n New list %v\n Result list: %v\n", OldList, NewList, ResList)
+	tx, err := r.db.Begin()
+	fmt.Printf("todo_list_postgres.go:\n Old list: %v\n  New list %v\n  Result list: %v\n ", OldList, NewList, ResList)
 	//query = fmt.Sprintf("UPDATE %s SET title = $1, description = $2 WHERE id = $3 AND EXISTS (SELECT 1 FROM lists_items li JOIN users_lists ul ON li.list_id = ul.list_id  WHERE ul.user_id = $4)", todoListsTable)
-	query = fmt.Sprintf("UPDATE %s SET title = $1, description = $2 FROM %s WHERE todo_lists.id = users_lists.list_id AND users_lists.user_id = $3 AND todo_lists.id = $4;", todoListsTable, userListsTable)
-	_, err = r.db.Exec(query, ResList.Title, ResList.Description, UserId, ResList.Id)
+	query = "UPDATE todo_lists SET title = $1, description = $2 WHERE id = $3 AND EXISTS (SELECT 1 FROM users_lists WHERE users_lists.list_id = todo_lists.id AND users_lists.user_id = $4);"
+	_, err = tx.Exec(query, ResList.Title, ResList.Description, ResList.Id, UserId)
 	if err != nil {
+		tx.Rollback()
 		return err
+	} else {
+		err := tx.Commit()
+		if err != nil {
+			return err
+		}
 	}
 
 	return err
