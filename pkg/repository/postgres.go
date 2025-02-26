@@ -31,7 +31,7 @@ func NewPostgresDB(cfg ConnConfig) (*sqlx.DB, error) {
 	}
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("error connecting to database: %s", err.Error())
+		log.Fatalf("postgres.go: error connecting to database: %s", err.Error())
 	}
 	return db, nil
 }

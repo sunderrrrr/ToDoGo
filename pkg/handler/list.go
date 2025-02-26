@@ -8,6 +8,8 @@ import (
 	"strconv"
 )
 
+// Данный файл содержит в себе функции для хендлеров, которые затрагивают сами списки(НЕ ИХ ЭЛЕМЕНТЫ)
+// При добавлении нового хендлера
 func (h *Handler) createList(c *gin.Context) {
 	Userid, err := getUserId(c)
 	if err != nil {
@@ -15,7 +17,7 @@ func (h *Handler) createList(c *gin.Context) {
 	}
 	var input models.ToDo
 	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("invalid input body: %s", err.Error()))
+		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("list.go: invalid input body: %s", err.Error()))
 		return
 	}
 

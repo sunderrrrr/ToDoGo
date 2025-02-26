@@ -23,7 +23,7 @@ func main() {
 		log.Fatalf("env initializing failed: %s", godotenv.Load(".env").Error())
 	}
 
-	// Создание соединения с базой данных PostgreSQL с использованием конфигурации
+	// Создание соединения с базой данных PostgresSQL с использованием конфигурации
 	db, err := repository.NewPostgresDB(repository.ConnConfig{
 		Host:     viper.GetString("database.host"),     // Хост базы данных
 		Port:     viper.GetString("database.port"),     // Порт базы данных
@@ -61,7 +61,7 @@ func main() {
 
 	// Проверка на ошибки при запуске сервера
 	if err != nil {
-		log.Fatalf("error while starting server: %e", err.Error())
+		log.Fatalf("error while starting server: %s", err.Error())
 	} else {
 		log.Println("Start Server Success") // Успешный запуск сервера
 	}
