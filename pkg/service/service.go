@@ -20,7 +20,7 @@ type TodoList interface {
 }
 
 type TodoItem interface {
-	//CreateItem(UserId int, ListId int, ItemText string) (int, error)
+	CreateItem(UserId int, ListId int, ItemText models.ToDo) (int, error)
 	//DeleteItem(UserId int, ItemId int) error
 	//UpdateItem(UserId int, ListId int, ItemText string, Done bool) error
 }
@@ -34,6 +34,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		TodoList:      NewTodoListService(repos.TodoList),
-		//TodoItem: NewTodoItemService(repos.TodoItem),
+		TodoItem:      NewTodoItemService(repos.TodoItem, repos.TodoList),
 	}
 }
