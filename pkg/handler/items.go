@@ -13,8 +13,8 @@ func (h *Handler) createItem(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	id := c.Param("id")
-	listId, err := strconv.Atoi(id)
+	tempId := c.Param("id")
+	listId, err := strconv.Atoi(tempId)
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("invalid id: %s", err.Error()))
 		return
@@ -23,7 +23,7 @@ func (h *Handler) createItem(c *gin.Context) {
 	if err := c.ShouldBindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("invalid input: %s", err.Error()))
 	}
-	id, err = h.services.TodoItem.CreateItem(userId, listId, input)
+	id, err := h.services.TodoItem.CreateItem(userId, listId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
