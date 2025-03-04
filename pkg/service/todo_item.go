@@ -14,7 +14,7 @@ func NewTodoItemService(repo repository.TodoItem, listRepo repository.TodoList) 
 	return &TodoItemService{repo: repo, listRepo: listRepo}
 }
 
-func (s *TodoItemService) CreateItem(UserId int, ListId int, Item models.ToDo) (int, error) {
+func (s *TodoItemService) CreateItem(UserId int, ListId int, Item models.TodoItem) (int, error) {
 	_, err := s.listRepo.GetListById(UserId, ListId)
 	if err != nil { //список не существует или не принадлежит пользователю
 		return 0, err
