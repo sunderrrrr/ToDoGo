@@ -23,7 +23,7 @@ func (h *Handler) createItem(c *gin.Context) {
 	if err := c.ShouldBindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("invalid input: %s", err.Error()))
 	}
-	id, err := h.services.TodoItem.CreateItem(userId, listId, input)
+	id, err = h.services.TodoItem.CreateItem(userId, listId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}

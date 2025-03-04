@@ -20,7 +20,7 @@ type TodoList interface {
 }
 
 type TodoItem interface {
-	CreateItem(UserId int, ListId int, ItemText models.ToDo) (int, error)
+	CreateItem(UserId int, ListId int, ItemText models.TodoItem) (int, error)
 	//DeleteItem(UserId int, ItemId int) error
 	//UpdateItem(UserId int, ListId int, ItemText string, Done bool) error
 }

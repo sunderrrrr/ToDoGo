@@ -14,7 +14,7 @@ func NewTodoItemPostgres(db *sqlx.DB) *ToDoItemPostgres {
 	return &ToDoItemPostgres{db: db}
 }
 
-func (r *ToDoItemPostgres) CreateItem(UserId int, ListId int, Item models.ToDo) (int, error) {
+func (r *ToDoItemPostgres) CreateItem(UserId int, ListId int, Item models.TodoItem) (int, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -22,7 +22,7 @@ func (r *ToDoItemPostgres) CreateItem(UserId int, ListId int, Item models.ToDo) 
 	var itemId int
 	createItemQuery := fmt.Sprintf("INSERT INTO %s (title, description) values ($1, $2) RETURNING id", todoItemsTable)
 
-	row := tx.QueryRow(createItemQuery, ListId, Item)
+	row := tx.QueryRow(createItemQuery, Item.Title, Item.Description)
 	err = row.Scan(&itemId)
 	if err != nil {
 		tx.Rollback()
