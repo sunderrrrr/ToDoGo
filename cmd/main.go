@@ -12,6 +12,16 @@ import (
 	"os"
 )
 
+// @title TodoAppApi
+// @version 1.0
+// @description REST-API Server for ToDoList App
+
+// @host localhost:8090
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	// Инициализация конфигурации приложения
 	if initConfig() != nil {

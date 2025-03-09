@@ -22,8 +22,8 @@ func (s *TodoItemService) CreateItem(UserId int, ListId int, Item models.TodoIte
 	return s.repo.CreateItem(UserId, ListId, Item)
 }
 
-/*func (s *TodoItemService) GetAllItems(UserId int) ([]models.TodoItem, error) {
-	return s.repo.GetAllItems(UserId)
+func (s *TodoItemService) GetAllItemsOfList(UserId int, ListId int) ([]models.TodoItem, error) {
+	return s.repo.GetAllItemsOfList(UserId, ListId)
 }
 
 func (s *TodoItemService) GetItemById(UserId int, ItemId int) (models.TodoItem, error) {
@@ -33,4 +33,7 @@ func (s *TodoItemService) GetItemById(UserId int, ItemId int) (models.TodoItem, 
 func (s *TodoItemService) DeleteItem(UserId int, ItemId int) error {
 	return s.repo.DeleteItem(UserId, ItemId)
 }
-*/
+
+func (s *TodoItemService) UpdateItem(UserId int, ListId int, ItemId int, UpdatedItem models.TodoItem) error {
+	return s.repo.UpdateItem(UserId, ListId, ItemId, UpdatedItem)
+}

@@ -21,8 +21,12 @@ type TodoList interface {
 
 type TodoItem interface {
 	CreateItem(UserId int, ListId int, ItemText models.TodoItem) (int, error)
+	GetAllItemsOfList(UserId int, ListId int) ([]models.TodoItem, error)
+	DeleteItem(UserId int, ItemId int) error
+	GetItemById(UserId int, ItemId int) (models.TodoItem, error)
+	UpdateItem(UserId int, ListId int, ItemId int, UpdatedItem models.TodoItem) error
 	//DeleteItem(UserId int, ItemId int) error
-	//UpdateItem(UserId int, ListId int, ItemText string, Done bool) error
+
 }
 type Service struct {
 	Authorization
