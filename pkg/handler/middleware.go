@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -27,14 +26,14 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	}
 
 	// parse token
-	fmt.Println("middleware: headerParts", headerParts[1])
+	//fmt.Println("middleware: headerParts", headerParts[1])
 	userId, err := h.services.Authorization.ParseToken(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
 		return
 	}
 	c.Set(userCtx, userId)
-	fmt.Println("middleware.go: userId:", userId)
+	//fmt.Println("middleware.go: userId:", userId)
 }
 
 func getUserId(c *gin.Context) (int, error) {

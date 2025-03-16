@@ -82,6 +82,7 @@ func (r *ToDoListPostgres) UpdateList(UserId int, ListId int, NewList models.ToD
 	var ResList models.ToDo
 	query := fmt.Sprintf(`SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1 AND ul.list_id = $2`, todoListsTable, userListsTable)
 	err := r.db.Get(&OldList, query, UserId, ListId)
+	fmt.Println(OldList)
 	if err != nil {
 		return err
 	}

@@ -1,0 +1,9 @@
+###CREATE LIST
+PUT http://localhost:8090/api/lists/1/items/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDIxODAyNDQsImlhdCI6MTc0MjEzNzA0NCwidXNlcl9pZCI6MTB9.lfHHvkqw2bPLAglWZZftQfJKorz5_xpbd_3rc2fHzW4
+
+{
+  "title": "встретиться с саньком и выпить пивfа",
+  "description": "4234234fhfghfghfg2343432423423423423423423423423"
+}

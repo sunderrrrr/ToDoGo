@@ -87,35 +87,42 @@ func (r *ToDoItemPostgres) UpdateItem(UserId int, ListId int, ItemId int, Update
 									INNER JOIN %s ul on ul.list_id = li.list_id WHERE ti.id = $1 AND ul.user_id = $2`, todoItemsTable, listItemsTable, userListsTable)
 
 	err := r.db.Get(&OldItem, query, ItemId, UserId)
+
 	if err != nil {
 		return err
 	}
-
+	fmt.Println("first req sent")
 	if UpdatedItem.Title != OldItem.Title && UpdatedItem.Title != "" {
 		ResItem.Title = UpdatedItem.Title
+	} else {
+		ResItem.Title = OldItem.Title
 	}
 	if UpdatedItem.Description != OldItem.Description && UpdatedItem.Description != "" {
 		ResItem.Description = UpdatedItem.Description
+	} else {
+		ResItem.Description = OldItem.Description
 	}
 	if UpdatedItem.Done != OldItem.Done {
 		ResItem.Done = UpdatedItem.Done
+	} else {
+		ResItem.Done = OldItem.Done
 	}
-
+	fmt.Printf("second send start")
 	tx, err := r.db.Begin()
 	if err != nil {
 		return err
 	}
 	updateQuery := fmt.Sprintf(`UPDATE %s
 			SET title = $1, description = $2, done = $3
-			WHERE id = :itemId
+			WHERE id = $4
 			  AND EXISTS (
 				  SELECT 1
 				  FROM %s li
 				  JOIN %s ul ON li.list_id = ul.list_id
-				  WHERE li.item_id = :itemId
-					AND ul.user_id = :userId
+				  WHERE li.item_id = $4
+					AND ul.user_id = $5
 			  );`, todoItemsTable, listItemsTable, userListsTable)
-	_, err = tx.Exec(updateQuery, ResItem.Title, ResItem.Description, ResItem.Done)
+	_, err = tx.Exec(updateQuery, ResItem.Title, ResItem.Description, ResItem.Done, ItemId, UserId)
 
-	return err
+	return tx.Commit()
 }
