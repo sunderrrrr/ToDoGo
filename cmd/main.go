@@ -28,10 +28,11 @@ func main() {
 		log.Fatalf("config initializing failed: %s", initConfig().Error())
 	}
 
-	// Загрузка переменных окружения из файла .env
 	if godotenv.Load(".env") != nil {
 		log.Fatalf("env initializing failed: %s", godotenv.Load(".env").Error())
 	}
+
+	// Загрузка переменных окружения из файла .env.example
 
 	// Создание соединения с базой данных PostgresSQL с использованием конфигурации
 	db, err := repository.NewPostgresDB(repository.ConnConfig{

@@ -1,8 +1,8 @@
 srvport: "8090"
+run: "debug"
 database:
   host: "localhost"
   port: "5436"
   username: "postgres"
-  password: "qwerty"
-  database: "postgres"
+  database: "todo-db"
   sslmode: "disable"

@@ -8,6 +8,19 @@ import (
 	"strconv"
 )
 
+// @Summary Create Item
+// @Tags Item
+// @Description Create item in current list
+// @ID create-item
+// @Accept  json
+// @Produce  json
+// @Param input body models.TodoItem true "item"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-up [post]
+
 func (h *Handler) createItem(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -30,6 +43,18 @@ func (h *Handler) createItem(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"id": id})
 }
 
+// @Summary Get all list Items
+// @Tags Item
+// @Description get all items of current list
+// @ID create-item
+// @Accept  json
+// @Produce  json
+// @Param input body models.TodoItem true "item" ?????
+// @Success 200 {integer} integer []models.TodoItem
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-up [post]
 func (h *Handler) getAllItems(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -49,6 +74,18 @@ func (h *Handler) getAllItems(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"items": items})
 }
 
+// @Summary Create Item
+// @Tags Item
+// @Description Create item in current list
+// @ID create-item
+// @Accept  json
+// @Produce  json
+// @Param input body models.TodoItem true "item" ???????
+// @Success 200 {models.TodoItem} models.TodoItem 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-up [post]
 func (h *Handler) getItemById(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -98,6 +135,18 @@ func (h *Handler) updateItem(c *gin.Context) {
 
 }
 
+// @Summary Delete Item
+// @Tags Item
+// @Description Create item in current list
+// @ID create-item
+// @Accept  json
+// @Produce  json
+// @Param input body models.TodoItem true "item"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/sign-up [post]
 func (h *Handler) deleteItem(c *gin.Context) {
 	UserId, err := getUserId(c)
 	if err != nil {
