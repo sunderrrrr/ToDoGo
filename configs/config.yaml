@@ -1,8 +1,8 @@
-srvport: "8090"
+srvport: "8080"
 run: "debug"
 database:
   host: "localhost"
   port: "5436"
   username: "postgres"
-  database: "todo-db"
+  database: "postgres"
   sslmode: "disable"

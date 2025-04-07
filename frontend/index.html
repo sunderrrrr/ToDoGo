@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick=send()>111</button>
+    <script>
+        // Данные, которые мы отправляем (замените на свои)
+        const postData = {
+
+        };
+
+// URL вашего локального API (замените на свой)
+        fetch("http://localhost:8080/auth/sign-in", {
+            method: "POST",
+            body: JSON.stringify({
+                username: 'valueк435341',
+                password: 'value2'
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+    </script>
+</body>
+</html>

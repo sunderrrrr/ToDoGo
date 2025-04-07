@@ -26,7 +26,7 @@
 3. Установить Docker
 4. Выполнить следующую команду для создания контейнера Postgres:
    ```
-   docker run --name=todo-db -e POSTGRES_PASSWORD=qwerty -p 5436:5432 -d --rm postgres
+   docker run --name=todo-db -e POSTGRES_PASSWORD=qwerty -p 5436:5432 -d postgres
    ```
     * `name` - имя контейнера
     * `POSTGRES_PASSWORD` - пароль от базы данных Postgres 🔑

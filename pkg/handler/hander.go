@@ -2,6 +2,7 @@ package handler
 
 import (
 	"ToDoGo/pkg/service"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,11 @@ func NewHandler(services *service.Service) *Handler {
 }
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+	// - No origin allowed by default
+	// - GET,POST, PUT, HEAD methods
+	// - Credentials share disabled
+	// - Preflight requests cached for 12 hours
+	router.Use(cors.Default())
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)
