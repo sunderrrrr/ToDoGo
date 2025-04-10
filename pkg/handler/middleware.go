@@ -10,6 +10,7 @@ import (
 const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
+	usernameCtx         = "username"
 )
 
 func (h *Handler) userIdentity(c *gin.Context) {
@@ -32,7 +33,8 @@ func (h *Handler) userIdentity(c *gin.Context) {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
 		return
 	}
-	c.Set(userCtx, userId)
+	c.Set(userCtx, userId.Id)
+	c.Set(usernameCtx, userId.Name)
 	//fmt.Println("middleware.go: userId:", userId)
 }
 
@@ -48,4 +50,13 @@ func getUserId(c *gin.Context) (int, error) {
 		return 0, errors.New("middleware.go: invalid user id")
 	}
 	return idInt, nil
+}
+
+func getUsername(c *gin.Context) (string, error) {
+	username, ok := c.Get(usernameCtx)
+	if !ok {
+		newErrorResponse(c, http.StatusUnauthorized, "middleware.go: no user id")
+		return "", errors.New("middleware.go: no user id")
+	}
+	return username.(string), nil
 }

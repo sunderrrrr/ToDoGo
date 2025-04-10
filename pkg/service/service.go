@@ -8,7 +8,7 @@ import (
 type Authorization interface { //Методы авторизации
 	CreateUser(user models.User) (int, error)
 	GenerateToken(username, password string) (string, error)
-	ParseToken(token string) (int, error)
+	ParseToken(token string) (models.User, error)
 }
 
 type TodoList interface {
@@ -26,12 +26,15 @@ type TodoItem interface {
 	GetItemById(UserId int, ItemId int) (models.TodoItem, error)
 	UpdateItem(UserId int, ListId int, ItemId int, UpdatedItem models.TodoItem) error
 	//DeleteItem(UserId int, ItemId int) error
-
+}
+type User interface {
+	ResetPassword(user models.UserReset) (int, error)
 }
 type Service struct {
 	Authorization
 	TodoList
 	TodoItem
+	User
 }
 
 func NewService(repos *repository.Repository) *Service {

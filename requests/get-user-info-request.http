@@ -1,0 +1,2 @@
+GET http://localhost:8090/api/user/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQzNTgyNzMsImlhdCI6MTc0NDMxNTA3MywidXNlcl9pZCI6NywidXNlcm5hbWUiOiJpbGl5YTIyIn0.VDRmxPYNj8eUa2e9Yp-aIzz-QopuiQokrdou3RJnZzE

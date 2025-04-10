@@ -6,3 +6,8 @@ type User struct { //Структура пользователя
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required" db:"password_hash"`
 }
+
+type UserReset struct {
+	OldPass string `json:"old_password" binding:"required"`
+	NewPass string `json:"new_password" binding:"required"`
+}

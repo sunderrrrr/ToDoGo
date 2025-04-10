@@ -15,10 +15,7 @@ func NewHandler(services *service.Service) *Handler {
 }
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
-	// - No origin allowed by default
-	// - GET,POST, PUT, HEAD methods
-	// - Credentials share disabled
-	// - Preflight requests cached for 12 hours
+	//todo Настроить CORS
 	router.Use(cors.Default())
 	auth := router.Group("/auth")
 	{
@@ -43,6 +40,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				items.PUT("/:item-id", h.updateItem)
 				items.DELETE("/:item-id", h.deleteItem)
 			}
+		}
+		user := api.Group("/user")
+		{
+			user.GET("/", h.getUserInfo)         // Get user info
+			user.POST("/reset", h.passwordReset) // Reset user info
+			user.DELETE("/delete", h.deleteUser) // Delete user
 		}
 	}
 	return router
