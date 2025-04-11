@@ -81,6 +81,44 @@ func (s *AuthService) ParseToken(accessToken string) (models.User, error) {
 	return returnUser, nil
 }
 
+func (s *AuthService) GeneratePasswordResetToken(email, signingKey string) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"email": email,
+		"exp":   time.Now().Add(1 * time.Hour).Unix(), // Токен действует 1 час
+	})
+
+	return token.SignedString([]byte(signingKey))
+}
+
+func (s *AuthService) ResetPassword(resetModel models.UserReset, resetToken string) error {
+	token, err := jwt.ParseWithClaims(resetToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("invalid signing method")
+		}
+
+		return []byte(signingKey), nil
+	})
+	if err != nil {
+		return err
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		return errors.New("token claims are not of type jwt.MapClaims or token invalid")
+	}
+	exp, ok := claims["exp"].(float64)
+	if !ok || time.Now().Unix() > int64(exp) {
+		return errors.New("токен истёк")
+	}
+
+	// 4. Получаем email из токена
+	email, ok := claims["email"].(string)
+	if !ok {
+		return errors.New("email не найден в токене")
+	}
+
+	return s.repo.ResetPassword(email, generatePasswordHash(resetModel.OldPass), generatePasswordHash(resetModel.NewPass))
+}
+
 func generatePasswordHash(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))

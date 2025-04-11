@@ -6,9 +6,12 @@ import (
 )
 
 type Authorization interface { //Методы авторизации
-	CreateUser(user models.User) (int, error)
-	GenerateToken(username, password string) (string, error)
-	ParseToken(token string) (models.User, error)
+	CreateUser(User models.User) (int, error)
+	GenerateToken(Username, Password string) (string, error)
+	ParseToken(Token string) (models.User, error)
+	ResetPassword(resetModel models.UserReset, resetToken string)
+	//ResetRequest(Email string) error
+	GeneratePasswordResetToken(email, signingKey string) (string, error)
 }
 
 type TodoList interface {

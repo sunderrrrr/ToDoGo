@@ -31,3 +31,8 @@ func (ap *AuthPostgres) GetUser(username string, password string) (models.User, 
 	err := ap.db.Get(&user, query, username, password) // Записываем значение используя указатель на структуру user
 	return user, err
 }
+
+func (ap *AuthPostgres) ResetPassword(email string, oldPassword string, newPassword string) error {
+	return nil
+	//ToDo: Дописать запрос туда сюда
+}

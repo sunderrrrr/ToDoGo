@@ -8,6 +8,7 @@ type User struct { //Структура пользователя
 }
 
 type UserReset struct {
-	OldPass string `json:"old_password" binding:"required"`
-	NewPass string `json:"new_password" binding:"required"`
+	Username string `json:"username" binding:"required"`
+	OldPass  string `json:"old_password" binding:"required"`
+	NewPass  string `json:"new_password" binding:"required"`
 }

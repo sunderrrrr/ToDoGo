@@ -1,4 +1,4 @@
-srvport: "8080"
+srvport: "8090"
 run: "debug"
 database:
   host: "localhost"
