@@ -5,12 +5,13 @@ import (
 	"ToDoGo/pkg/repository"
 )
 
+// Todo Перенести методы в User
 type Authorization interface { //Методы авторизации
 	CreateUser(User models.User) (int, error)
 	GenerateToken(Username, Password string) (string, error)
 	ParseToken(Token string) (models.User, error)
-	ResetPassword(resetModel models.UserReset, resetToken string)
-	//ResetRequest(Email string) error
+	ResetPassword(resetModel models.UserReset) error
+	ResetPasswordRequest(email models.ResetRequest) error
 	GeneratePasswordResetToken(email, signingKey string) (string, error)
 }
 

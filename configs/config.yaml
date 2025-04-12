@@ -1,5 +1,11 @@
 srvport: "8090"
 run: "debug"
+frontendUrl: "http://localhost/"
+smtp:
+  host: "smtp.gmail.com"
+  port: "587"
+  senderMail: "from@gmail.com"
+  senderPass: "пароль"
 database:
   host: "localhost"
   port: "5436"
