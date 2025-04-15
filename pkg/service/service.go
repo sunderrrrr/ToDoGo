@@ -5,14 +5,11 @@ import (
 	"ToDoGo/pkg/repository"
 )
 
-// Todo Перенести методы в User
+// Authorization Todo Перенести методы в User
 type Authorization interface { //Методы авторизации
 	CreateUser(User models.User) (int, error)
 	GenerateToken(Username, Password string) (string, error)
 	ParseToken(Token string) (models.User, error)
-	ResetPassword(resetModel models.UserReset) error
-	ResetPasswordRequest(email models.ResetRequest) error
-	GeneratePasswordResetToken(email, signingKey string) (string, error)
 }
 
 type TodoList interface {
@@ -32,7 +29,9 @@ type TodoItem interface {
 	//DeleteItem(UserId int, ItemId int) error
 }
 type User interface {
-	ResetPassword(user models.UserReset) (int, error)
+	ResetPassword(resetModel models.UserReset) error
+	ResetPasswordRequest(email models.ResetRequest) error
+	GeneratePasswordResetToken(email, signingKey string) (string, error)
 }
 type Service struct {
 	Authorization
@@ -46,5 +45,6 @@ func NewService(repos *repository.Repository) *Service {
 		Authorization: NewAuthService(repos.Authorization),
 		TodoList:      NewTodoListService(repos.TodoList),
 		TodoItem:      NewTodoItemService(repos.TodoItem, repos.TodoList),
+		User:          NewUserService(repos.User),
 	}
 }

@@ -13,6 +13,7 @@ const (
 	usernameCtx         = "username"
 )
 
+// Промежуточкая аунтентификация пользователя
 func (h *Handler) userIdentity(c *gin.Context) {
 	header := c.GetHeader(authorizationHeader)
 	if header == "" {

@@ -6,6 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// Работа с элементами
 type ToDoListPostgres struct {
 	db *sqlx.DB
 }

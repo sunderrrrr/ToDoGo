@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// Обработчики для управления элементами списков
 // @Summary Create Item
 // @Tags Item
 // @Description Create item in current list

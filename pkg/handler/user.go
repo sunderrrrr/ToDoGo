@@ -2,10 +2,12 @@ package handler
 
 import (
 	"ToDoGo/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
+// Обработчики для управления пользователем
 func (h *Handler) getUserInfo(c *gin.Context) {
 	username, err := getUsername(c)
 	id, err := getUserId(c)
@@ -25,12 +27,13 @@ func (h *Handler) passwordResetRequest(c *gin.Context) { //Запрос сбро
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	err = h.services.Authorization.ResetPasswordRequest(input)
+	fmt.Println(input)
+	err = h.services.User.ResetPasswordRequest(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	c.JSON(http.StatusOK, gin.H{"status": "request sent"})
 
 }
 func (h *Handler) passwordResetConfirm(c *gin.Context) {
@@ -39,7 +42,12 @@ func (h *Handler) passwordResetConfirm(c *gin.Context) {
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	err = h.services.Authorization.ResetPassword()
+	err = h.services.User.ResetPassword(input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "password reset confirmed"})
+	}
 
 }
 func (h *Handler) deleteUser(c *gin.Context) {

@@ -7,8 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/spf13/viper"
-	"net/smtp"
 	"time"
 )
 
@@ -81,81 +79,6 @@ func (s *AuthService) ParseToken(accessToken string) (models.User, error) {
 	}
 
 	return returnUser, nil
-}
-
-func (s *AuthService) GeneratePasswordResetToken(email, signingKey string) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": email,
-		"exp":   time.Now().Add(1 * time.Hour).Unix(), // Токен действует 1 час
-	})
-
-	return token.SignedString([]byte(signingKey))
-}
-
-func (s *AuthService) ResetPassword(resetModel models.UserReset) error {
-	token, err := jwt.ParseWithClaims(resetModel.Token, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("invalid signing method")
-		}
-
-		return []byte(signingKey), nil
-	})
-	if err != nil {
-		return err
-	}
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok || !token.Valid {
-		return errors.New("token claims are not of type jwt.MapClaims or token invalid")
-	}
-	exp, ok := claims["exp"].(float64)
-	if !ok || time.Now().Unix() > int64(exp) {
-		return errors.New("токен истёк")
-	}
-
-	// 4. Получаем email из токена
-	email, ok := claims["email"].(string)
-	if !ok {
-		return errors.New("email не найден в токене")
-	}
-
-	return s.repo.ResetPassword(email, generatePasswordHash(resetModel.OldPass), generatePasswordHash(resetModel.NewPass))
-}
-
-func (s *AuthService) ResetPasswordRequest(email models.ResetRequest) error {
-	token, err := s.GeneratePasswordResetToken(email.Login, signingKey)
-	if err != nil {
-		return err
-	}
-	resetLink := fmt.Sprintf("%s/reset-confirm/?token=%s", viper.GetString("frontendUrl"), token)
-	from := viper.GetString("smtp.senderMail")
-	password := viper.GetString("smtp.senderPass")
-
-	// Информация о получателе
-	to := []string{
-		email.Login,
-	}
-
-	// smtp сервер конфигурация
-	smtpHost := viper.GetString("smtp.host")
-	smtpPort := viper.GetString("smtp.port")
-
-	// Сообщение.
-	message := []byte("<h1>Сброс пароля</h1>\n" +
-		"<p>Перейдите по ссылке, чтобы сбросить пароль</p>\n" +
-		"<a href=\"" + resetLink + "\">Сброс</a>\n" +
-		"<p>Если вы не запрашивали сброс, не переходите. Время действия ссылки один час</p>")
-
-	// Авторизация.
-	auth := smtp.PlainAuth("", from, password, smtpHost)
-
-	// Отправка почты.
-	err = smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
-	if err != nil {
-		return err
-
-	}
-	fmt.Println("Почта отправлена!")
-	return nil
 }
 
 func generatePasswordHash(password string) string {

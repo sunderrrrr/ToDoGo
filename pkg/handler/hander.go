@@ -13,6 +13,8 @@ type Handler struct {
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
+
+// Настройка относительных адресов всех обработчиков
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 	//todo Настроить CORS
@@ -21,6 +23,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
+		auth.POST("/reset-request", h.passwordResetRequest) // Request reset user password
+		auth.POST("/reset-confirm/", h.passwordResetConfirm)
 	}
 	api := router.Group("/api")
 	{
@@ -43,14 +47,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 					items.DELETE("/:item-id", h.deleteItem)
 				}
 			}
+			user := v1.Group("/user")
+			{
+				user.GET("/", h.getUserInfo)         // Get user info
+				user.DELETE("/delete", h.deleteUser) // Delete user
+			}
 		}
-		user := api.Group("/user")
-		{
-			user.GET("/", h.getUserInfo)                        // Get user info
-			user.POST("/reset-request", h.passwordResetRequest) // Request reset user password
-			user.POST("/reset-confirm/:token", h.passwordResetConfirm)
-			user.DELETE("/delete", h.deleteUser) // Delete user
-		}
+
 	}
 	return router
 }

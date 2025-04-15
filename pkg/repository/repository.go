@@ -5,12 +5,15 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// Сборник репозиториев
 type Authorization interface {
 	CreateUser(user models.User) (int, error)
 	GetUser(username, password string) (models.User, error)
+	//ResetPassword(email, oldPassword, newPassword string) error
+}
+type User interface {
 	ResetPassword(email, oldPassword, newPassword string) error
 }
-
 type TodoList interface {
 	Create(UserId int, list models.ToDo) (int, error)
 	GetAllLists(UserId int) ([]models.ToDo, error)
@@ -30,6 +33,7 @@ type Repository struct {
 	Authorization
 	TodoList
 	TodoItem
+	User
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -37,5 +41,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		TodoList:      NewTodoListPostgres(db),
 		TodoItem:      NewTodoItemPostgres(db),
+		User:          NewUserRepository(db),
 	}
 }

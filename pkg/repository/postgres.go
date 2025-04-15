@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// Подключение к БД
 type ConnConfig struct {
 	Host     string
 	Port     string
